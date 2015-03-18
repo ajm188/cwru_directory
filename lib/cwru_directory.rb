@@ -1,5 +1,6 @@
 require "cwru_directory/version"
 require 'cwru_directory/config'
+require 'cwru_directory/authentication'
 
 require 'mechanize' # Can't just open-uri because the URL does a redirect
 
