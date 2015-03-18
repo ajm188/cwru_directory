@@ -3,13 +3,6 @@ require 'spec_helper'
 RSpec.describe CWRUDirectory::Configuration do
   before(:all) { @config = CWRUDirectory::Configuration.new }
 
-  it 'has accessible case_id and password attributes' do
-    [:case_id, :password].each do |getter|
-      setter = (getter.to_s + '=').to_sym
-      expect(@config).to respond_to getter
-      expect(@config).to respond_to setter
-    end
-  end
 end
 
 RSpec.describe CWRUDirectory do
