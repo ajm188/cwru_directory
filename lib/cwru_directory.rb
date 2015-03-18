@@ -69,6 +69,12 @@ module CWRUDirectory
         end
         index += 1
       end
+
+      if @authenticated && @config.get_all_info
+        results.values.flatten.each do |result|
+          process_more_info(result, @agent.get(result[:more_info_link])) if result[:more_info_link]
+        end
+      end
       results
     end
 
@@ -76,9 +82,22 @@ module CWRUDirectory
       {
         name: first_row.children[0].text,
         phone_number: first_row.children[1].text,
+        more_info_link: first_row.children[2].children.get_attribute('href'),
         email: second_row.children[0].text,
         department: second_row.children[1].text
       }
+    end
+
+    def process_more_info(result, more_info_page)
+      html = more_info_page.parser
+      # The first row is the person's name and section, so we can skip that.
+      html.xpath('//table[@class="longlisting"]/tr').drop(1).each do |more_info_row|
+        attribute = more_info_row.children[0].text
+        # There is a td of padding between the attribute and the value
+        value = more_info_row.children[2].text
+
+        result[attribute] = value
+      end
     end
 
     def default_search_params
