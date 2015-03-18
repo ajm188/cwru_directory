@@ -39,7 +39,7 @@ module CWRUDirectory
     end
 
     def search(params)
-      page = @agent.get(URL + '?' + to_query_string(params)).parser
+      page = @agent.get(URL + '?' + to_query_string(default_search_params.merge(params))).parser
       rows = page.xpath('//table[@class="dirresults"]/tr')
       parse_results(rows)
     end
@@ -77,6 +77,18 @@ module CWRUDirectory
         phone_number: first_row.children[1].text,
         email: second_row.children[0].text,
         department: second_row.children[1].text
+      }
+    end
+
+    def default_search_params
+      {
+        search_text: '',
+        surname: '',
+        givenname: '',
+        department: '',
+        location: '',
+        category: :all,
+        search_method: :regular
       }
     end
 
