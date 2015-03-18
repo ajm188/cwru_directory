@@ -70,7 +70,8 @@ module CWRUDirectory
         index += 1
       end
 
-      if @authenticated && @config.get_all_info
+      if @config.get_all_info
+        authenticate! # we need to be authenticated for this
         results.values.flatten.each do |result|
           process_more_info(result, @agent.get(result[:more_info_link])) if result[:more_info_link]
         end
