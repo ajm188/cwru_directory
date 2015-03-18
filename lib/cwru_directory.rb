@@ -82,7 +82,7 @@ module CWRUDirectory
       {
         name: first_row.children[0].text,
         phone_number: first_row.children[1].text,
-        more_info_link: first_row.children[2].children.get_attribute('href'),
+        more_info_link: first_row.children[2].children[0].get_attribute('href'),
         email: second_row.children[0].text,
         department: second_row.children[1].text
       }
